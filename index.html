@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Para ti</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --night-deep:#05061a;
+  --night:#0c0f2e;
+  --indigo:#1b2050;
+  --gold:#f2cd7e;
+  --gold-soft:#c9a86b;
+  --lavender:#b9aeea;
+  --cream:#f3efe6;
+  --muted:#8a8ec2;
+
+  --font-display:'Cormorant Garamond', serif;
+  --font-body:'Jost', sans-serif;
+  --font-script:'Parisienne', cursive;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      var(--indigo) 0%,
+      var(--night) 45%,
+      var(--night-deep) 100%
+    );
+
+  color:var(--cream);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+}
+
+button{
+  font:inherit;
+}
+
+@keyframes fadeUp{
+
+  from{
+    opacity:0;
+    transform:translateY(16px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   CIELO
+   ========================================================= */
+
+#sky{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+
+  background:var(--cream);
+
+  border-radius:50%;
+
+  opacity:0;
+
+  animation:
+    twinkle ease-in-out infinite;
+}
+
+@keyframes twinkle{
+
+  0%,100%{
+    opacity:0;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.9;
+    transform:scale(1.6);
+  }
+
+}
+
+
+/* =========================================================
+   ENTRADA
+   ========================================================= */
+
+#entrance{
+  position:fixed;
+  inset:0;
+  z-index:10;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:34px;
+
+  text-align:center;
+
+  padding:32px;
+
+  transition:
+    opacity .8s ease,
+    filter .8s ease,
+    transform .8s ease;
+}
+
+#entrance.hidden{
+  opacity:0;
+  filter:blur(6px);
+  transform:scale(1.08);
+
+  pointer-events:none;
+}
+
+#entrance h1{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-weight:500;
+
+  font-size:clamp(28px,6.5vw,46px);
+
+  max-width:480px;
+
+  line-height:1.32;
+
+  opacity:0;
+
+  animation:
+    fadeUp 1.1s ease forwards .3s;
+}
+
+#entrance .sub{
+  font-weight:300;
+  letter-spacing:.05em;
+
+  color:var(--muted);
+
+  font-size:14px;
+
+  max-width:300px;
+
+  opacity:0;
+
+  animation:
+    fadeUp 1.1s ease forwards .65s;
+}
+
+.wish-wrap{
+  position:relative;
+
+  width:130px;
+  height:130px;
+
+  opacity:0;
+
+  animation:
+    fadeUp 1.1s ease forwards 1s;
+}
+
+.wish-btn{
+  position:absolute;
+  inset:0;
+
+  border-radius:50%;
+  border:none;
+
+  background:transparent;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.wish-btn svg{
+  width:34px;
+  height:34px;
+
+  position:relative;
+  z-index:2;
+}
+
+.wish-btn svg path{
+  fill:var(--gold);
+}
+
+.wish-glow{
+  position:absolute;
+  inset:14px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(242,205,126,.55),
+      rgba(242,205,126,0) 70%
+    );
+
+  animation:
+    breathe 2.6s ease-in-out infinite;
+}
+
+.wish-ring{
+  position:absolute;
+  inset:0;
+
+  border-radius:50%;
+
+  border:1px solid rgba(242,205,126,.35);
+
+  animation:
+    ringPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes breathe{
+
+  0%,100%{
+    transform:scale(.85);
+    opacity:.55;
+  }
+
+  50%{
+    transform:scale(1.15);
+    opacity:.95;
+  }
+
+}
+
+@keyframes ringPulse{
+
+  0%{
+    transform:scale(.9);
+    opacity:.5;
+  }
+
+  70%{
+    transform:scale(1.35);
+    opacity:0;
+  }
+
+  100%{
+    transform:scale(1.35);
+    opacity:0;
+  }
+
+}
+
+.wish-wrap.launched .wish-glow,
+.wish-wrap.launched .wish-ring{
+  animation:none;
+  opacity:0;
+
+  transition:
+    opacity .4s ease;
+}
+
+.wish-wrap.launched .wish-btn svg{
+  transition:
+    transform .4s ease,
+    opacity .4s ease;
+
+  transform:scale(.2);
+  opacity:0;
+}
+
+
+/* =========================================================
+   ESTRELLA FUGAZ
+   ========================================================= */
+
+.shooting-star{
+  position:fixed;
+
+  z-index:11;
+
+  top:50%;
+  left:50%;
+
+  width:3px;
+  height:3px;
+
+  border-radius:50%;
+
+  background:var(--cream);
+
+  box-shadow:
+    0 0 8px 2px rgba(255,255,255,.8);
+
+  opacity:0;
+
+  pointer-events:none;
+}
+
+.shooting-star::after{
+  content:"";
+
+  position:absolute;
+
+  top:50%;
+  right:100%;
+
+  width:140px;
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.75)
+    );
+
+  transform:translateY(-50%);
+}
+
+.shooting-star.fire{
+
+  animation:
+    shoot 1s cubic-bezier(.3,.6,.4,1) forwards;
+}
+
+@keyframes shoot{
+
+  0%{
+    opacity:0;
+
+    transform:
+      translate(-50%,-50%)
+      rotate(-34deg)
+      translateX(0);
+  }
+
+  12%{
+    opacity:1;
+  }
+
+  85%{
+    opacity:.9;
+  }
+
+  100%{
+    opacity:0;
+
+    transform:
+      translate(-50%,-50%)
+      rotate(-34deg)
+      translateX(920px);
+  }
+
+}
+
+
+/* =========================================================
+   CARTA
+   ========================================================= */
+
+#letter-screen{
+  position:fixed;
+  inset:0;
+
+  z-index:5;
+
+  overflow-y:auto;
+
+  padding:
+    min(9vh,80px)
+    26px
+    90px;
+
+  opacity:0;
+
+  pointer-events:none;
+
+  transition:
+    opacity 1s ease;
+}
+
+#letter-screen.visible{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.letter-inner{
+  max-width:560px;
+
+  margin:0 auto;
+
+  position:relative;
+}
+
+.constellation{
+  display:block;
+
+  margin:0 auto 6px;
+
+  width:150px;
+  height:54px;
+
+  overflow:visible;
+}
+
+.constellation path{
+  fill:none;
+
+  stroke:var(--gold-soft);
+
+  stroke-width:1;
+
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+
+  pathLength:1;
+
+  transition:
+    stroke-dashoffset 1.6s ease;
+}
+
+.constellation.shown path{
+  stroke-dashoffset:0;
+}
+
+.constellation circle{
+  fill:var(--gold);
+
+  opacity:0;
+
+  transform-origin:center;
+
+  transition:
+    opacity .5s ease,
+    transform .5s ease;
+
+  transform:scale(0);
+}
+
+.constellation.shown circle{
+  opacity:1;
+  transform:scale(1);
+}
+
+.constellation.shown circle:nth-of-type(1){
+  transition-delay:.15s;
+}
+
+.constellation.shown circle:nth-of-type(2){
+  transition-delay:.55s;
+}
+
+.constellation.shown circle:nth-of-type(3){
+  transition-delay:.95s;
+}
+
+.constellation.shown circle:nth-of-type(4){
+  transition-delay:1.35s;
+}
+
+.eyebrow{
+  font-size:11px;
+
+  letter-spacing:.24em;
+
+  text-transform:uppercase;
+
+  color:var(--muted);
+
+  text-align:center;
+
+  margin-bottom:14px;
+
+  opacity:0;
+
+  transition:
+    opacity .8s ease;
+}
+
+.eyebrow.shown{
+  opacity:1;
+}
+
+.letter-title{
+  font-family:var(--font-display);
+
+  font-style:italic;
+
+  font-weight:500;
+
+  font-size:
+    clamp(28px,6vw,40px);
+
+  text-align:center;
+
+  margin-bottom:6px;
+
+  opacity:0;
+
+  transition:
+    opacity .9s ease,
+    transform .9s ease;
+
+  transform:translateY(10px);
+}
+
+.letter-title.shown{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.letter-date{
+  text-align:center;
+
+  font-size:11px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  color:var(--muted);
+
+  margin-bottom:50px;
+
+  opacity:0;
+
+  transition:
+    opacity .9s ease;
+}
+
+.letter-date.shown{
+  opacity:1;
+}
+
+.letter-body p{
+  position:relative;
+
+  font-family:var(--font-display);
+
+  font-size:
+    clamp(18px,4vw,21px);
+
+  font-weight:400;
+
+  line-height:1.9;
+
+  color:var(--cream);
+
+  margin-bottom:24px;
+
+  opacity:0;
+
+  transform:translateY(14px);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+.letter-body p.shown{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.letter-body p::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+
+  height:100%;
+  width:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(242,205,126,.16),
+      transparent
+    );
+
+  pointer-events:none;
+}
+
+.letter-body p.shown::before{
+  animation:
+    sweep 1.4s ease forwards;
+}
+
+@keyframes sweep{
+
+  from{
+    width:0;
+    opacity:1;
+  }
+
+  to{
+    width:100%;
+    opacity:0;
+  }
+
+}
+
+.divider{
+  width:0;
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-soft),
+      transparent
+    );
+
+  margin:38px auto;
+
+  opacity:0;
+
+  transition:
+    opacity 1s ease,
+    width 1.1s ease;
+}
+
+.divider.shown{
+  opacity:.8;
+  width:120px;
+}
+
+.signature-label{
+  text-align:center;
+
+  font-size:13px;
+
+  font-weight:300;
+
+  color:var(--muted);
+
+  opacity:0;
+
+  transition:
+    opacity 1s ease;
+}
+
+.signature-label.shown{
+  opacity:1;
+}
+
+.signature{
+  text-align:center;
+
+  font-family:var(--font-script);
+
+  font-size:
+    clamp(34px,8vw,46px);
+
+  color:var(--gold);
+
+  margin-top:8px;
+
+  text-shadow:
+    0 0 24px rgba(242,205,126,.35);
+
+  opacity:0;
+
+  transform:scale(.85);
+
+  transition:
+    opacity 1.1s ease,
+    transform 1.1s ease;
+}
+
+.signature.shown{
+  opacity:1;
+  transform:scale(1);
+}
+
+
+/* =========================================================
+   BOTÓN RECUERDOS
+   ========================================================= */
+
+.memories-btn{
+  display:block;
+
+  margin:38px auto 0;
+
+  padding:12px 25px;
+
+  border:
+    1px solid rgba(242,205,126,.45);
+
+  border-radius:30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(242,205,126,.08),
+      rgba(185,174,234,.04)
+    );
+
+  color:var(--gold);
+
+  cursor:pointer;
+
+  letter-spacing:.09em;
+
+  font-size:12px;
+
+  opacity:0;
+
+  transform:translateY(14px);
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease,
+    background .4s ease,
+    box-shadow .4s ease;
+}
+
+.memories-btn.shown{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.memories-btn:hover{
+  background:
+    rgba(242,205,126,.13);
+
+  box-shadow:
+    0 0 25px rgba(242,205,126,.12);
+}
+
+.replay{
+  display:block;
+
+  margin:28px auto 0;
+
+  background:none;
+
+  border:none;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  letter-spacing:.08em;
+
+  text-decoration:underline;
+
+  text-underline-offset:4px;
+
+  text-decoration-color:transparent;
+
+  cursor:pointer;
+
+  transition:all .3s ease;
+
+  opacity:0;
+}
+
+.replay.shown{
+  opacity:1;
+}
+
+.replay:hover{
+  color:var(--gold);
+  text-decoration-color:var(--gold);
+}
+
+
+/* =========================================================
+   GALERÍA
+   ========================================================= */
+
+#memories-screen{
+  position:fixed;
+
+  inset:0;
+
+  z-index:20;
+
+  overflow-y:auto;
+
+  padding:
+    55px
+    22px
+    70px;
+
+  background:
+    radial-gradient(
+      ellipse at 50% -10%,
+      rgba(27,32,80,.95) 0%,
+      rgba(12,15,46,.98) 45%,
+      rgba(5,6,26,1) 100%
+    );
+
+  opacity:0;
+
+  transform:scale(1.04);
+
+  filter:blur(4px);
+
+  pointer-events:none;
+
+  transition:
+    opacity .9s ease,
+    transform 1s cubic-bezier(.2,.7,.2,1),
+    filter .9s ease;
+}
+
+#memories-screen.visible{
+
+  opacity:1;
+
+  transform:scale(1);
+
+  filter:blur(0);
+
+  pointer-events:auto;
+}
+
+.memories-inner{
+  max-width:700px;
+
+  margin:auto;
+}
+
+.memories-heading{
+  text-align:center;
+
+  margin-bottom:38px;
+}
+
+.memories-constellation{
+  width:135px;
+  height:45px;
+
+  display:block;
+
+  margin:0 auto 5px;
+}
+
+.memories-constellation path{
+  fill:none;
+
+  stroke:var(--gold-soft);
+
+  stroke-width:1;
+
+  stroke-dasharray:100;
+  stroke-dashoffset:100;
+}
+
+#memories-screen.visible
+.memories-constellation path{
+
+  animation:
+    drawConstellation 1.8s ease forwards;
+}
+
+@keyframes drawConstellation{
+
+  to{
+    stroke-dashoffset:0;
+  }
+
+}
+
+.memories-title{
+  text-align:center;
+
+  font-family:var(--font-display);
+
+  font-style:italic;
+
+  font-weight:500;
+
+  font-size:
+    clamp(32px,8vw,48px);
+
+  color:var(--cream);
+
+  line-height:1.1;
+
+  opacity:0;
+
+  transform:translateY(15px);
+
+  transition:
+    opacity .9s ease .25s,
+    transform .9s ease .25s;
+}
+
+#memories-screen.visible
+.memories-title{
+
+  opacity:1;
+
+  transform:translateY(0);
+}
+
+.memories-subtitle{
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  letter-spacing:.04em;
+
+  margin-top:9px;
+
+  opacity:0;
+
+  transform:translateY(10px);
+
+  transition:
+    opacity .8s ease .45s,
+    transform .8s ease .45s;
+}
+
+#memories-screen.visible
+.memories-subtitle{
+
+  opacity:1;
+
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   📸 GALERÍA PREMIUM
+   ========================================================= */
+
+.gallery{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:16px;
+
+  align-items:start;
+}
+
+
+/*
+   IMPORTANTE:
+
+   La tarjeta ahora tiene una transición
+   muy pequeña al seleccionarse.
+
+   No ocupa toda la pantalla.
+*/
+
+.photo-card{
+
+  position:relative;
+
+  overflow:hidden;
+
+  border-radius:14px;
+
+  aspect-ratio:4/5;
+
+  border:
+    1px solid rgba(242,205,126,.25);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(242,205,126,.06),
+      rgba(185,174,234,.04)
+    );
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.28),
+    inset 0 0 0 1px rgba(255,255,255,.025);
+
+  opacity:0;
+
+  transform:
+    translateY(35px)
+    scale(.94)
+    rotateX(8deg);
+
+  cursor:pointer;
+
+  transition:
+    opacity .9s cubic-bezier(.2,.7,.2,1),
+    transform .9s cubic-bezier(.2,.7,.2,1),
+    box-shadow .45s ease,
+    border-color .45s ease;
+}
+
+
+/* Entrada */
+
+#memories-screen.visible
+.photo-card{
+
+  opacity:1;
+
+  transform:
+    translateY(0)
+    scale(1)
+    rotateX(0);
+}
+
+
+.photo-card:nth-child(1){
+  transition-delay:.35s;
+}
+
+.photo-card:nth-child(2){
+  transition-delay:.48s;
+}
+
+.photo-card:nth-child(3){
+  transition-delay:.61s;
+}
+
+.photo-card:nth-child(4){
+  transition-delay:.74s;
+}
+
+.photo-card:nth-child(5){
+  transition-delay:.87s;
+}
+
+.photo-card:nth-child(6){
+  transition-delay:1s;
+}
+
+
+/* Brillo */
+
+.photo-card::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.12),
+      transparent 35%,
+      transparent 65%,
+      rgba(242,205,126,.08)
+    );
+
+  opacity:.45;
+
+  pointer-events:none;
+
+  transition:
+    opacity .45s ease;
+}
+
+
+/* Imagen */
+
+.photo-card img{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+
+  transform:scale(1.04);
+
+  transition:
+    transform .65s cubic-bezier(.2,.7,.2,1),
+    filter .65s ease;
+}
+
+
+/* =========================================================
+   ✨ FOTO SELECCIONADA
+   ========================================================= */
+
+.photo-card.selected{
+
+  /*
+     Solo crece un poquito.
+     Nada exagerado.
+  */
+
+  transform:
+    scale(1.035)
+    translateY(-3px);
+
+  z-index:5;
+
+  border-color:
+    rgba(242,205,126,.6);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.42),
+    0 0 28px rgba(242,205,126,.12);
+}
+
+
+.photo-card.selected img{
+
+  transform:scale(1.075);
+
+  filter:
+    saturate(1.06)
+    brightness(1.02);
+}
+
+
+.photo-card.selected::after{
+
+  opacity:.8;
+}
+
+
+/* =========================================================
+   💌 TEXTO DE LA FOTO
+   ========================================================= */
+
+.photo-caption{
+
+  position:absolute;
+
+  left:10px;
+  right:10px;
+
+  bottom:10px;
+
+  z-index:4;
+
+  padding:
+    9px
+    11px;
+
+  border-radius:9px;
+
+  background:
+    rgba(5,6,26,.72);
+
+  border:
+    1px solid rgba(242,205,126,.22);
+
+  backdrop-filter:blur(8px);
+
+  -webkit-backdrop-filter:blur(8px);
+
+  color:var(--cream);
+
+  text-align:center;
+
+  font-family:var(--font-display);
+
+  font-size:15px;
+
+  line-height:1.3;
+
+  letter-spacing:.01em;
+
+  opacity:0;
+
+  transform:
+    translateY(8px)
+    scale(.97);
+
+  pointer-events:none;
+
+  transition:
+    opacity .4s ease,
+    transform .4s cubic-bezier(.2,.7,.2,1);
+}
+
+
+.photo-card.selected
+.photo-caption{
+
+  opacity:1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+/* =========================================================
+   ✨ PEQUEÑO DESTELLO AL TOCAR
+   ========================================================= */
+
+.photo-card.selected::before{
+
+  content:"✦";
+
+  position:absolute;
+
+  z-index:6;
+
+  top:8px;
+  right:10px;
+
+  color:var(--gold);
+
+  font-size:13px;
+
+  opacity:0;
+
+  animation:
+    littleSpark .7s ease forwards;
+
+  pointer-events:none;
+
+  text-shadow:
+    0 0 12px rgba(242,205,126,.8);
+}
+
+@keyframes littleSpark{
+
+  0%{
+    opacity:0;
+    transform:scale(.5) rotate(-20deg);
+  }
+
+  40%{
+    opacity:1;
+    transform:scale(1.15) rotate(8deg);
+  }
+
+  100%{
+    opacity:0;
+    transform:scale(.8) rotate(20deg);
+  }
+
+}
+
+
+/* =========================================================
+   BOTÓN VOLVER
+   ========================================================= */
+
+.back-btn{
+
+  display:block;
+
+  margin:40px auto 0;
+
+  background:
+    rgba(242,205,126,.025);
+
+  border:
+    1px solid rgba(242,205,126,.35);
+
+  border-radius:25px;
+
+  padding:
+    11px 22px;
+
+  color:var(--gold);
+
+  cursor:pointer;
+
+  font-size:12px;
+
+  letter-spacing:.08em;
+
+  transition:
+    background .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
+
+  opacity:0;
+
+  transform:translateY(12px);
+}
+
+#memories-screen.visible .back-btn{
+
+  opacity:1;
+
+  transform:translateY(0);
+
+  transition:
+    opacity .8s ease 1.1s,
+    transform .8s ease 1.1s,
+    background .3s ease,
+    box-shadow .3s ease;
+}
+
+.back-btn:hover{
+
+  background:
+    rgba(242,205,126,.09);
+
+  box-shadow:
+    0 0 20px rgba(242,205,126,.08);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:500px){
+
+  .gallery{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:10px;
+  }
+
+  .photo-card{
+
+    border-radius:11px;
+  }
+
+  #memories-screen{
+
+    padding-left:15px;
+    padding-right:15px;
+  }
+
+  .photo-caption{
+
+    font-size:13px;
+
+    padding:
+      8px 7px;
+
+    bottom:7px;
+
+    left:7px;
+    right:7px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCIR ANIMACIONES
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *{
+
+    animation-duration:.001ms !important;
+
+    animation-iteration-count:1 !important;
+
+    transition-duration:.001ms !important;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div id="sky"></div>
+
+
+<!-- =========================================================
+     ENTRADA
+     ========================================================= -->
+
+<div id="entrance">
+
+  <h1 id="entranceTitle">
+    Te hice otra de estassss ya ando canson 😭
+  </h1>
+
+  <p class="sub">
+    Na mas toca la estrella.
+  </p>
+
+  <div class="wish-wrap" id="wishWrap">
+
+    <div class="wish-ring"></div>
+
+    <div class="wish-glow"></div>
+
+    <button
+      class="wish-btn"
+      id="enterBtn"
+      aria-label="Pedir un deseo">
+
+      <svg viewBox="0 0 24 24">
+
+        <path
+          d="
+          M12 0
+          l2.6 8.1
+          H23
+          l-6.9 5
+          l2.6 8.1
+          L12 16.2
+          5.3 21.2
+          l2.6-8.1
+          L1 8.1
+          h8.4z
+          "
+        />
+
+      </svg>
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     CARTA
+     ========================================================= -->
+
+<div id="letter-screen">
+
+  <div class="letter-inner">
+
+    <svg
+      class="constellation"
+      id="constellation"
+      viewBox="0 0 150 54">
+
+      <path
+        d="M8,40 L45,10 L75,34 L142,6"
+        pathLength="1"
+      />
+
+      <circle cx="8" cy="40" r="2.4"/>
+      <circle cx="45" cy="10" r="2.4"/>
+      <circle cx="75" cy="34" r="2.4"/>
+      <circle cx="142" cy="6" r="2.4"/>
+
+    </svg>
+
+
+    <p
+      class="eyebrow"
+      id="eyebrow">
+
+      
+
+    </p>
+
+
+    <h2
+      class="letter-title"
+      id="letterTitle">
+    </h2>
+
+
+    <p
+      class="letter-date"
+      id="letterDate">
+    </p>
+
+
+    <div
+      class="letter-body"
+      id="letterBody">
+    </div>
+
+
+    <div
+      class="divider"
+      id="divider">
+    </div>
+
+
+    <p
+      class="signature-label"
+      id="signatureLabel">
+
+      Con cariño
+
+    </p>
+
+
+    <p
+      class="signature"
+      id="signature">
+    </p>
+
+
+    <!-- MÚSICA -->
+
+    <audio
+      id="musicPlayer"
+      preload="auto">
+
+      <source
+        id="musicSource"
+        src="musica.mp3"
+        type="audio/mpeg">
+
+    </audio>
+
+
+    <!-- BOTÓN -->
+
+    <button
+      class="memories-btn"
+      id="memoriesBtn">
+
+      ✦ FOTOSH  ✦
+
+    </button>
+
+
+    <button
+      class="replay"
+      id="replayBtn">
+
+      Pa leer de nuevo
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECUERDOS
+     ========================================================= -->
+
+<div id="memories-screen">
+
+  <div class="memories-inner">
+
+    <div class="memories-heading">
+
+      <svg
+        class="memories-constellation"
+        viewBox="0 0 135 45">
+
+        <path
+          d="M5,33 L38,9 L67,28 L130,5"
+        />
+
+      </svg>
+
+
+      <h2 class="memories-title">
+        VERSITOOO
+      </h2>
+
+
+      <p class="memories-subtitle">
+        
+      </p>
+
+    </div>
+
+
+    <div
+      class="gallery"
+      id="gallery">
+    </div>
+
+
+    <button
+      class="back-btn"
+      id="backBtn">
+
+      ← Volver a la carta
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================================
+   CONFIGURACIÓN
+   ========================================================================= */
+
+const CONFIG = {
+
+  titulo:"Aceilyyyyy",
+
+  firma:"Yersonn La maravillaaaaa 🔥",
+
+  fecha:"30 de agosto de 2026",
+
+
+  /* =====================================================
+     CARTA
+     ===================================================== */
+
+  carta:[
+
+    "Bueno hoyyy, hoyyyyy yo sé que estás leyendo esto enfrente mío quizas, no me vas a ver de a mucho que me da pena 😭😭😭 JAJAJAJAJA, pero igual estoy muy feliz de verte la cara asi sea me haga el loco  .",
+    "y me tenes que enternder pues hace tiempo que no te veía y ya te extrañaba un montón, más de lo que yo mismo quería aceptar JAJAJAJAJA. Y ahora que estoy con usted, compartiendo así sea un ratico, me doy cuenta de lo mucho que valoro tenerla cerquita. .",
+    "Quiero que sepa que cuando estoy con usted me recuerda por qué la valoro tanto: por su forma de ser, por cómo me hace sentir y porque incluso los momentos simples a su lado se vuelven especiales para mi. Me hace feliz poder mirarla, hablar con usted y saber que está aquí conmigo. ",
+    "Gracias, negra. Gracias por compartir su tiempo, por su amor y por hacer que todo se sienta más bonito. La amoO mucho manita ❤️.",
+    
+    ""
+  ],
+
+
+  /* =====================================================
+     MÚSICA
+     ===================================================== */
+
+  musica:"musica.mp3",
+
+
+  /* =====================================================
+     📸 FOTOS + TEXTOS
+     
+     Cada foto tiene su propio mensaje.
+     ===================================================== */
+
+  fotos:[
+
+    {
+      imagen:"foto1.jpg",
+      texto:"Que todos estos momentos "
+    },
+
+    {
+      imagen:"foto2.jpg",
+      texto:"Sean para siempre."
+    },
+
+    {
+      imagen:"foto3.jpg",
+      texto:"Porque sos"
+    },
+
+    {
+      imagen:"foto4.jpg",
+      texto:"En el mundo."
+    },
+
+    {
+      imagen:"foto5.jpg",
+      texto:"Mi persona."
+    },
+
+    {
+      imagen:"foto6.jpg",
+      texto:"Favoritaaa ❤️"
+    }
+
+  ]
+
+};
+
+
+/* =========================================================================
+   CIELO
+   ========================================================================= */
+
+function initSky(count){
+
+  const container =
+    document.getElementById("sky");
+
+  const frag =
+    document.createDocumentFragment();
+
+  for(let i=0;i<count;i++){
+
+    const s =
+      document.createElement("div");
+
+    s.className =
+      "star";
+
+    const size =
+      1 + Math.random()*2;
+
+    s.style.width =
+      size+"px";
+
+    s.style.height =
+      size+"px";
+
+    s.style.left =
+      Math.random()*100+"%";
+
+    s.style.top =
+      Math.random()*100+"%";
+
+    s.style.animationDuration =
+      2.5 + Math.random()*4+"s";
+
+    s.style.animationDelay =
+      Math.random()*6+"s";
+
+    frag.appendChild(s);
+
+  }
+
+  container.appendChild(frag);
+
+}
+
+initSky(70);
+
+
+/* =========================================================================
+   ELEMENTOS
+   ========================================================================= */
+
+const entrance =
+  document.getElementById("entrance");
+
+const letterScreen =
+  document.getElementById("letter-screen");
+
+const enterBtn =
+  document.getElementById("enterBtn");
+
+const wishWrap =
+  document.getElementById("wishWrap");
+
+const letterBody =
+  document.getElementById("letterBody");
+
+const memoriesScreen =
+  document.getElementById("memories-screen");
+
+const memoriesBtn =
+  document.getElementById("memoriesBtn");
+
+const backBtn =
+  document.getElementById("backBtn");
+
+const gallery =
+  document.getElementById("gallery");
+
+const musicPlayer =
+  document.getElementById("musicPlayer");
+
+const musicSource =
+  document.getElementById("musicSource");
+
+
+/* =========================================================================
+   MÚSICA
+   ========================================================================= */
+
+musicSource.src =
+  CONFIG.musica;
+
+musicPlayer.load();
+
+
+/* =========================================================================
+   📸 CREAR GALERÍA
+   ========================================================================= */
+
+CONFIG.fotos.forEach((foto,index)=>{
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "photo-card";
+
+
+  /* Imagen */
+
+  const img =
+    document.createElement("img");
+
+  img.src =
+    foto.imagen;
+
+  img.alt =
+    `Recuerdo ${index+1}`;
+
+  img.loading =
+    "lazy";
+
+
+  /* Texto */
+
+  const caption =
+    document.createElement("div");
+
+  caption.className =
+    "photo-caption";
+
+  caption.textContent =
+    foto.texto;
+
+
+  card.appendChild(img);
+
+  card.appendChild(caption);
+
+  gallery.appendChild(card);
+
+
+  /* =====================================================
+     CLICK EN FOTO
+     ===================================================== */
+
+  card.addEventListener("click",()=>{
+
+    /*
+       Si ya está seleccionada,
+       la cerramos.
+    */
+
+    if(card.classList.contains("selected")){
+
+      card.classList.remove("selected");
+
+      return;
+    }
+
+
+    /*
+       Si había otra foto abierta,
+       la cerramos primero.
+    */
+
+    document
+      .querySelectorAll(".photo-card.selected")
+      .forEach(other=>{
+
+        other.classList.remove("selected");
+
+      });
+
+
+    /*
+       Abrir esta foto
+    */
+
+    card.classList.add("selected");
+
+  });
+
+});
+
+
+/* =========================================================================
+   CONSTRUIR CARTA
+   ========================================================================= */
+
+CONFIG.carta.forEach(line=>{
+
+  const p =
+    document.createElement("p");
+
+  p.textContent =
+    line;
+
+  letterBody.appendChild(p);
+
+});
+
+
+document
+  .getElementById("letterTitle")
+  .textContent =
+  CONFIG.titulo;
+
+
+document
+  .getElementById("letterDate")
+  .textContent =
+  CONFIG.fecha;
+
+
+document
+  .getElementById("signature")
+  .textContent =
+  CONFIG.firma;
+
+
+/* =========================================================================
+   ⭐ ESTRELLA → CARTA
+   ========================================================================= */
+
+enterBtn.addEventListener("click",()=>{
+
+  wishWrap.classList.add("launched");
+
+  enterBtn.disabled = true;
+
+
+  /* Música */
+
+  musicPlayer.currentTime = 0;
+
+  musicPlayer.play().catch(()=>{});
+
+
+  /* Estrella */
+
+  const rect =
+    enterBtn.getBoundingClientRect();
+
+  const star =
+    document.createElement("div");
+
+  star.className =
+    "shooting-star";
+
+
+  star.style.top =
+    rect.top + rect.height/2 + "px";
+
+  star.style.left =
+    rect.left + rect.width/2 + "px";
+
+
+  document.body.appendChild(star);
+
+
+  requestAnimationFrame(()=>{
+
+    star.classList.add("fire");
+
+  });
+
+
+  setTimeout(()=>{
+
+    star.remove();
+
+  },1100);
+
+
+  /* Carta */
+
+  setTimeout(()=>{
+
+    entrance.classList.add("hidden");
+
+    letterScreen.classList.add("visible");
+
+    revealLetter();
+
+  },550);
+
+});
+
+
+/* =========================================================================
+   REVELAR CARTA
+   ========================================================================= */
+
+let letterRevealed =
+  false;
+
+
+function revealLetter(){
+
+  if(letterRevealed)
+    return;
+
+  letterRevealed =
+    true;
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("constellation")
+      .classList.add("shown");
+
+  },150);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("eyebrow")
+      .classList.add("shown");
+
+  },1500);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("letterTitle")
+      .classList.add("shown");
+
+  },1800);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("letterDate")
+      .classList.add("shown");
+
+  },2100);
+
+
+  const paragraphs =
+    Array.from(letterBody.children);
+
+
+  paragraphs.forEach((p,i)=>{
+
+    setTimeout(()=>{
+
+      p.classList.add("shown");
+
+    },2500+i*900);
+
+  });
+
+
+  const afterAll =
+    2500 + paragraphs.length*900;
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("divider")
+      .classList.add("shown");
+
+  },afterAll+200);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("signatureLabel")
+      .classList.add("shown");
+
+  },afterAll+650);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("signature")
+      .classList.add("shown");
+
+  },afterAll+1050);
+
+
+  setTimeout(()=>{
+
+    memoriesBtn.classList.add("shown");
+
+  },afterAll+1500);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("replayBtn")
+      .classList.add("shown");
+
+  },afterAll+1900);
+
+}
+
+
+/* =========================================================================
+   📸 ABRIR RECUERDOS
+   ========================================================================= */
+
+memoriesBtn.addEventListener("click",()=>{
+
+  memoriesScreen.classList.add("visible");
+
+});
+
+
+/* =========================================================================
+   VOLVER
+   ========================================================================= */
+
+backBtn.addEventListener("click",()=>{
+
+  memoriesScreen.classList.remove("visible");
+
+});
+
+
+/* =========================================================================
+   REPETIR EXPERIENCIA
+   ========================================================================= */
+
+document
+  .getElementById("replayBtn")
+  .addEventListener("click",()=>{
+
+    letterRevealed =
+      false;
+
+
+    [
+      "constellation",
+      "eyebrow",
+      "letterTitle",
+      "letterDate",
+      "divider",
+      "signatureLabel",
+      "signature",
+      "replayBtn"
+    ]
+
+    .forEach(id=>{
+
+      document
+        .getElementById(id)
+        .classList.remove("shown");
+
+    });
+
+
+    memoriesBtn.classList.remove("shown");
+
+
+    Array.from(letterBody.children)
+      .forEach(p=>{
+
+        p.classList.remove("shown");
+
+      });
+
+
+    letterScreen.scrollTo({
+
+      top:0,
+
+      behavior:"smooth"
+
+    });
+
+
+    musicPlayer.currentTime =
+      0;
+
+    musicPlayer.play()
+      .catch(()=>{});
+
+
+    revealLetter();
+
+  });
+
+</script>
+
+</body>
+</html>
